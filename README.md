@@ -2,7 +2,7 @@
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/patarapolw/zhsort/graphs/commit-activity) 
 [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/zhsort.herokuapp.com.svg)](http://shields.io/)
-[![GitHub release](https://img.shields.io/github/release/patarapolw/zhsort.svg)](https://GitHub.com/patarapolw/ChineseViewer/releases/)
+[![GitHub release](https://img.shields.io/github/release/patarapolw/zhsort.svg)](https://GitHub.com/patarapolw/zhsort/releases/)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 [![powered by Flask](http://flask.pocoo.org/static/badges/powered-by-flask-s.png "powered by Flask")](http://flask.pocoo.org/)
 
