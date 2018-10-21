@@ -1,6 +1,6 @@
-#loader {
-    border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #3498db; /* Blue */
+/* #loader {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
     border-radius: 50%;
     width: 120px;
     height: 120px;
@@ -16,6 +16,20 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+} */
+
+#loader {
+    height: 60%;
+    width: 60%;
+    background-color: #dff9fb;
+    opacity: 0.9;
+    border: 2px gray;
+    visibility: hidden;
+    position: fixed;
+    top: 20%;
+    left: 20%;
+    overflow: scroll;
+    padding: 1em;
 }
 
 #container {

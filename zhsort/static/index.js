@@ -1,31 +1,64 @@
 var isLoading = false;
-var spinningLoader = document.getElementById('loader');
+var loader = document.getElementById('loader');
 var sButton = document.getElementById('submitButton')
 
 sButton.addEventListener('click', function(){
     if(!isLoading){
         isLoading = true;
-        spinningLoader.style.visibility = 'visible';
+        loader.style.visibility = 'visible';
         sButton.disabled = true;
+        loader.innerHTML = '<li>Loading...</li>';
 
-        var http = new XMLHttpRequest();
+        var xhr = new XMLHttpRequest();
         var url = '/create';
         var params = {
             text: document.getElementById('textArea1').value
         }
+        var position = 0;
+        function handleData(){
+            var messages = xhr.responseText.split('\n');
+            var latest = '';
 
-        http.open('POST', url, true);
-        http.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
-        http.onload = function(){
-            if(http.status == 201){
-                var filename = JSON.parse(http.responseText).filename;
-                window.location = '/excel/' + filename;
+            messages.forEach(function(value) {
+                try {
+                    var jsonLatest = JSON.parse(value);
+                    if(jsonLatest.simplified) latest = 'Loading vocab: ' + jsonLatest.simplified;
+                    else if(jsonLatest.hanzi) latest = 'Loading Hanzi: ' + jsonLatest.hanzi;
+                    else latest = value;
+                } catch (err) {
+                    latest = value;
+                }
+
+                var item = document.createElement('li');
+                item.textContent = latest;
+                loader.appendChild(item);
+                loader.scrollTop = loader.scrollHeight;
+            });
+            position = messages.length - 1;
+
+            return latest;
+        }
+
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+        xhr.send(JSON.stringify(params));
+        var timer = setInterval(function() {
+            // check the response for new data
+            var latest = handleData();
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                clearInterval(timer);
+                window.location = '/excel/' + latest;
 
                 isLoading = false;
-                spinningLoader.style.visibility = 'hidden';
+                loader.style.visibility = 'hidden';
                 sButton.disabled = false;
             }
-        };
-        http.send(JSON.stringify(params));
+
+            // stop checking once the response has ended
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                clearInterval(timer);
+                latest.textContent = 'Done';
+            }
+        }, 1000);
     }
 });
