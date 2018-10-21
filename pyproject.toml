@@ -8,8 +8,8 @@ authors = ["patarapolw <patarapolw@gmail.com>"]
 python = "*"
 gunicorn = "^19.9"
 flask = "^1.0"
-#zhlib = "^0.1.2"
+zhlib = "^0.1.3"
 xlsxwriter = "^1.1"
-zhlib = {path = "../zhlib"}
+#zhlib = {path = "../zhlib"}
 
 [tool.poetry.dev-dependencies]

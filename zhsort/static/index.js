@@ -17,22 +17,24 @@ sButton.addEventListener('click', function(){
         var position = 0;
         function handleData(){
             var messages = xhr.responseText.split('\n');
-            var latest = '';
+            var latest;
 
             messages.forEach(function(value) {
-                try {
-                    var jsonLatest = JSON.parse(value);
-                    if(jsonLatest.simplified) latest = 'Loading vocab: ' + jsonLatest.simplified;
-                    else if(jsonLatest.hanzi) latest = 'Loading Hanzi: ' + jsonLatest.hanzi;
-                    else latest = value;
-                } catch (err) {
-                    latest = value;
+                if(value){
+                    try {
+                        var jsonLatest = JSON.parse(value);
+                        if(jsonLatest.simplified) latest = 'Loading vocab: ' + jsonLatest.simplified;
+                        else if(jsonLatest.hanzi) latest = 'Loading Hanzi: ' + jsonLatest.hanzi;
+                        else latest = value;
+                    } catch (err) {
+                        latest = value;
+                    }
+    
+                    var item = document.createElement('li');
+                    item.textContent = latest;
+                    loader.appendChild(item);
+                    loader.scrollTop = loader.scrollHeight;
                 }
-
-                var item = document.createElement('li');
-                item.textContent = latest;
-                loader.appendChild(item);
-                loader.scrollTop = loader.scrollHeight;
             });
             position = messages.length - 1;
 
