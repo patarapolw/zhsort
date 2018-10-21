@@ -60,13 +60,16 @@ def create_excel():
         previous = 3.5
         format_ = None
         for i, record in enumerate(d['vocab']):
-            freq_log = math.ceil(math.log10(record.get('frequency')) * 2)/2
-            if 1 < freq_log < previous:
-                previous = freq_log
-                if format_:
-                    format_ = None
-                else:
-                    format_ = gray
+            try:
+                freq_log = math.ceil(math.log10(record.get('frequency')) * 2)/2
+                if 1 < freq_log < previous:
+                    previous = freq_log
+                    if format_:
+                        format_ = None
+                    else:
+                        format_ = gray
+            except ValueError:
+                pass
 
             ws.write_row(i+1, 0, [
                 record.get('frequency'),
