@@ -1,0 +1,4 @@
+gunicorn
+flask
+zhlib>=0.1.2
+xlsxwriter

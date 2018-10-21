@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "zhsort"
+version = "0.1.0"
+description = "Chinese Vocab Extracter and Sorter"
+authors = ["patarapolw <patarapolw@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "*"
+gunicorn = "^19.9"
+flask = "^1.0"
+#zhlib = "^0.1.2"
+xlsxwriter = "^1.1"
+zhlib = {path = "../zhlib"}
+
+[tool.poetry.dev-dependencies]
