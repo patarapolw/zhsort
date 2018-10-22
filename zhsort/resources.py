@@ -29,7 +29,10 @@ def create_excel():
         d = dict()
         for type_, record in _generate_base():
             d.setdefault(type_, []).append(record)
-            yield json.dumps(record) + '\n'
+            if type_ == 'vocab':
+                yield 'Loading vocab: ' + record['simplified'] + '\n'
+            else:
+                yield 'Loading Hanzi: ' + record['hanzi'] + '\n'
 
         d = {
             'hanzi': sorted(d['hanzi'], key=lambda x: x['sequence'] if x['sequence'] else math.inf),

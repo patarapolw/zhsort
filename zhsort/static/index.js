@@ -21,19 +21,12 @@ sButton.addEventListener('click', function(){
 
             messages.forEach(function(value) {
                 if(value){
-                    try {
-                        var jsonLatest = JSON.parse(value);
-                        if(jsonLatest.simplified) latest = 'Loading vocab: ' + jsonLatest.simplified;
-                        else if(jsonLatest.hanzi) latest = 'Loading Hanzi: ' + jsonLatest.hanzi;
-                        else latest = value;
-                    } catch (err) {
-                        latest = value;
-                    }
-    
                     var item = document.createElement('li');
                     item.textContent = latest;
                     loader.appendChild(item);
                     loader.scrollTop = loader.scrollHeight;
+
+                    latest = value;
                 }
             });
             position = messages.length - 1;
