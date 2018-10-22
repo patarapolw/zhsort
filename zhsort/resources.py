@@ -7,7 +7,6 @@ import xlsxwriter
 import os
 import atexit
 import math
-import json
 
 from . import app
 from .dir import TEMP_DIR
