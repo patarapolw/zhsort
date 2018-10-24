@@ -2,7 +2,7 @@ from flask import request, send_from_directory, Response
 from werkzeug.utils import secure_filename
 
 from datetime import datetime
-from zhlib.level import Level
+from zhlib_snapshot.level import Level
 import xlsxwriter
 import os
 import atexit
@@ -19,23 +19,23 @@ def create_excel():
     text = request.get_json()['text']
 
     def _generate_base():
-        for db_vocab in level_maker.search_vocab_iter(text):
-            yield 'vocab', db_vocab
-        for db_hanzi in level_maker.search_hanzi_iter(text):
-            yield 'hanzi', db_hanzi
+        for vocab_trio in level_maker.search_vocab_iter(text, format_='excel'):
+            yield 'vocab', vocab_trio
+        for hanzi_trio in level_maker.search_hanzi_iter(text, format_='excel'):
+            yield 'hanzi', hanzi_trio
 
     def _generate():
         d = dict()
-        for type_, record in _generate_base():
-            d.setdefault(type_, []).append(record)
+        for type_, (f, t, record) in _generate_base():
+            d.setdefault(type_, []).append((f, t, record))
             if type_ == 'vocab':
                 yield 'Loading vocab: ' + record['simplified'] + '\n'
             else:
                 yield 'Loading Hanzi: ' + record['hanzi'] + '\n'
 
         d = {
-            'hanzi': sorted(d['hanzi'], key=lambda x: x['sequence'] if x['sequence'] else math.inf),
-            'vocab': sorted(d['vocab'], key=lambda x: -x['frequency'])
+            'hanzi': sorted(d['hanzi'], key=lambda x: x[0] if x[0] else math.inf),
+            'vocab': sorted(d['vocab'], key=lambda x: -x[0])
         }
 
         filename = datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.xlsx'
@@ -59,28 +59,24 @@ def create_excel():
         ws.write_row(0, 0, header)
         ws.set_column(0, len(header)-1, 15)
 
-        previous = 3.5
+        previous = 1
         format_ = None
-        for i, record in enumerate(d['vocab']):
-            try:
-                freq_log = math.ceil(math.log10(record.get('frequency')) * 2)/2
-                if 1 < freq_log < previous:
-                    previous = freq_log
-                    if format_:
-                        format_ = None
-                    else:
-                        format_ = gray
-            except ValueError:
-                pass
+        for i, (f, t, record) in enumerate(d['vocab']):
+            if t > previous:
+                previous = t
+                if format_:
+                    format_ = None
+                else:
+                    format_ = gray
 
             ws.write_row(i+1, 0, [
-                record.get('frequency'),
-                record.get('simplified'),
-                record.get('traditional', None),
-                record.get('pinyin', None),
-                record.get('english', None),
-                '\n'.join(record.get('sentences', '')),
-                ' '.join(record.get('tags', []))
+                f,
+                record['simplified'],
+                record.get('traditional'),
+                record.get('pinyin'),
+                record.get('english'),
+                record.get('sentences'),
+                '，'.join(record.get('tags', []) + ['tier{}'.format(t)])
             ], format_)
 
         ws = workbook.add_worksheet('hanzi')
@@ -91,33 +87,30 @@ def create_excel():
             'Pinyin',
             'Meaning',
             'Vocabs',
-            'Sentences'
+            'Sentences',
+            'Tags'
         ]
         ws.write_row(0, 0, header)
         ws.set_column(0, len(header)-1, 15)
 
-        previous = 0
+        previous = 1
         format_ = None
-        for i, record in enumerate(d['hanzi']):
-            sequence = record.get('sequence')
-            if not sequence or sequence > 2000:
-                sequence = 10000
-
-            current = sequence // 500
-            if current > previous:
-                previous = current
+        for i, (f, t, record) in enumerate(d['hanzi']):
+            if t > previous:
+                previous = t
                 if format_:
                     format_ = None
                 else:
                     format_ = gray
 
             ws.write_row(i+1, 0, [
-                record.get('sequence'),
-                record.get('hanzi'),
-                record.get('pinyin', None),
-                record.get('meaning', None),
-                '，'.join(record.get('vocabs', '')),
-                '\n'.join(record.get('sentences', ''))
+                f,
+                record['hanzi'],
+                record.get('pinyin'),
+                record.get('meaning'),
+                record.get('vocabs'),
+                record.get('sentences'),
+                '，'.join(record.get('tags', []) + ['tier{}'.format(t)])
             ], format_)
 
         workbook.close()
