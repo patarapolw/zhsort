@@ -40,7 +40,7 @@ class Hanzi(BaseModel):
         d = model_to_dict(self)
         d.update({
             'vocabs': '，'.join(d['vocabs']),
-            'sentences': '，'.join(d['sentences']),
+            'sentences': '\n'.join(d['sentences']),
             'compositions': '，'.join(d['compositions']),
             'supercompositions': '，'.join(d['supercompositions']),
             'variants': '，'.join(d['variants']),
@@ -81,7 +81,7 @@ class Vocab(BaseModel):
         d = model_to_dict(self)
         d.update({
             'frequency': d['frequency'] * 10 ** 6,
-            'sentences': '，'.join(d['sentences']),
+            'sentences': '\n'.join(d['sentences']),
             'tags': d['tags']
         })
 
