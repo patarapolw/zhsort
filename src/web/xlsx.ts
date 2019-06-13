@@ -20,7 +20,7 @@ export async function createExcel(data: IExport, cb: (x: string) => any) {
             'Tags'
         ]);
 
-        for (const d of data.vocab.sort((a, b) => b.frequency - a.frequency)) {
+        for (const d of data.vocab.sort((a, b) => (b.frequency || -1) - (a.frequency || -1))) {
             aoa.push([
                 d.frequency,
                 d.simplified,
