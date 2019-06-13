@@ -1,5 +1,6 @@
 import sqlite3
 import pinyin
+from wordfreq import word_frequency
 
 
 class Db:
@@ -27,7 +28,8 @@ class Db:
         else:
             d = {
                 "simplified": v,
-                "pinyin": pinyin.get(v, delimiter=" ", format="numerical")
+                "pinyin": pinyin.get(v, delimiter=" ", format="numerical"),
+                "frequency": word_frequency(v, "zh")
             }
 
         d["sentence"] = [dict(c) for c in self.conn.execute("""

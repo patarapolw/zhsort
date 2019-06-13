@@ -1,5 +1,3 @@
-import "bootstrap/scss/bootstrap.scss";
-import "bootstrap";
 import { createExcel, IExport } from "./xlsx";
 
 let isLoading = false;
