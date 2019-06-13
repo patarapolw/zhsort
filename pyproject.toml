@@ -1,18 +1,24 @@
 [tool.poetry]
 name = "zhsort"
-version = "0.1.0"
+version = "0.2.0"
 description = "Chinese Vocab Extracter and Sorter"
-authors = ["patarapolw <patarapolw@gmail.com>"]
+authors = ["Pacharapol Withayasakpunt"]
+license = "MIT"
 
 [tool.poetry.dependencies]
-python = "*"
-gunicorn = "^19.9"
+python = "^3.7"
 flask = "^1.0"
-xlsxwriter = "^1.1"
-peewee = "^3.7"
 wordfreq = "^2.2"
 jieba = "^0.39.0"
+pinyin = "^0.4.0"
+python-dotenv = "^0.10.3"
+flask-cors = "^3.0"
+gunicorn = "^19.9"
 regex = "=2018.02.21"
 
 [tool.poetry.dev-dependencies]
-zhlib = {path = "../zhlib"}
+pytest = "^4.6"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

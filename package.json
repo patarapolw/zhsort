@@ -1,0 +1,42 @@
+{
+  "name": "zhsort",
+  "version": "0.2.0",
+  "description": "Chinese Vocab Extracter and Sorter",
+  "main": "index.js",
+  "repository": "https://github.com/patarapolw/zhsort.git",
+  "author": "<patarapolw@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/hyperscript": "^0.0.3",
+    "@types/jquery": "^3.3.29",
+    "bootstrap": "^4.3.1",
+    "concurrently": "^4.1.0",
+    "css-loader": "^3.0.0",
+    "dotenv": "^8.0.0",
+    "expose-loader": "^0.7.5",
+    "file-loader": "^4.0.0",
+    "hyperscript": "^2.0.2",
+    "jquery": "^3.4.1",
+    "node-sass": "^4.12.0",
+    "popper.js": "^1.15.0",
+    "raw-loader": "^3.0.0",
+    "rimraf": "^2.6.3",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^6.0.2",
+    "typescript": "^3.5.1",
+    "vue": "^2.6.10",
+    "vue-property-decorator": "^8.1.1",
+    "webpack": "^4.34.0",
+    "webpack-cli": "^3.3.4",
+    "webpack-dev-server": "^3.7.1",
+    "xlsx": "^0.14.3"
+  },
+  "scripts": {
+    "start": "yarn run dev",
+    "dev": "concurrently 'yarn run py:dev' 'yarn run js:dev'",
+    "py:dev": "poetry run python server.py",
+    "js:dev": "rimraf public/js && webpack-dev-server --config webpack.dev.js",
+    "build": "rimraf public/js && webpack --config webpack.prod.js"
+  }
+}

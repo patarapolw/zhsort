@@ -1,0 +1,23 @@
+#loader {
+    height: 60%;
+    width: 60%;
+    background-color: #dff9fb;
+    opacity: 0.9;
+    border: 2px gray;
+    visibility: hidden;
+    position: fixed;
+    top: 20%;
+    left: 20%;
+    overflow: scroll;
+    padding: 1em;
+    white-space: nowrap;
+}
+
+#container {
+    height: 100%;
+}
+
+#textArea1 {
+    margin-top: 5%;
+    height: 70%;
+}

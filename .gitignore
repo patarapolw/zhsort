@@ -163,3 +163,5 @@ pip-selfcheck.json
 .idea/
 .vscode/
 setup.py
+*.lock
+node_modules/

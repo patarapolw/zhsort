@@ -1,1 +1,1 @@
-web gunicorn zhsort:app
+web: gunicorn server:app
