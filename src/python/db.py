@@ -67,7 +67,7 @@ class Db:
             }
 
         d["vocab"] = [dict(c) for c in self.conn.execute("""
-        SELECT
+        SELECT DISTINCT
             simplified
         FROM
             vocab
